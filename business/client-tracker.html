@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#090711">
+<meta name="robots" content="noindex,nofollow">
+<title>Rapabi Digital — Internal Client Tracker</title>
+<style>
+:root{color-scheme:dark;--bg:#090711;--panel:#151221;--panel2:#1c172b;--line:#ffffff1b;--text:#f7f3ff;--muted:#aaa1ba;--purple:#a77aff;--purple2:#c7a9ff;--danger:#ff8585;--green:#8be0b0}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(ellipse at 15% 0%,#311c4c66,transparent 42%),var(--bg);color:var(--text);font:14px/1.5 system-ui,-apple-system,Segoe UI,sans-serif}button,input,select,textarea{font:inherit}button{cursor:pointer}.wrap{max-width:1160px;margin:auto;padding:24px 18px 60px}.top{display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap;margin-bottom:24px}.brand{display:flex;align-items:center;gap:12px;font-weight:800;letter-spacing:1px}.mark{width:42px;height:42px;border-radius:13px;background:linear-gradient(140deg,#c4a0ff,#7541c7);display:grid;place-items:center;color:#140d20;font-size:25px}.eyebrow{color:var(--purple2);font-size:10px;letter-spacing:2px;font-weight:800}.top p{margin:3px 0 0;color:var(--muted);font-size:12px}.top-actions,.actions{display:flex;gap:8px;flex-wrap:wrap}.btn{border:1px solid var(--line);border-radius:9px;padding:10px 13px;background:#201a30;color:var(--text);font-weight:650;font-size:12px}.btn.primary{background:linear-gradient(110deg,#c3a0ff,#9562e8);color:#150d21;border:0}.btn.danger{color:#ffaaaa}.notice{padding:14px 16px;border:1px solid #d2a85b55;background:#3a2b173d;border-radius:11px;color:#e8d4ad;font-size:12px;margin-bottom:20px}.notice strong{color:#fff0ce}.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:18px}.stat,.panel,.record{background:#151221e8;border:1px solid var(--line);border-radius:13px}.stat{padding:15px}.stat small{display:block;color:var(--muted);font-size:10px;letter-spacing:1px;text-transform:uppercase}.stat b{font-size:25px;display:block;margin-top:4px}.toolbar{display:flex;gap:10px;align-items:center;justify-content:space-between;flex-wrap:wrap;margin-bottom:12px}.search{flex:1;min-width:190px}.field input,.field select,.field textarea,.search input{width:100%;background:#0c0a13;border:1px solid var(--line);border-radius:8px;padding:11px;color:var(--text);outline:none}.field input:focus,.field select:focus,.field textarea:focus,.search input:focus{border-color:var(--purple)}.records{display:grid;gap:10px}.record{padding:16px;display:grid;grid-template-columns:minmax(0,1.5fr) minmax(0,1fr) auto;gap:15px;align-items:center}.record h3{margin:0 0 3px;font-size:15px}.record p{margin:2px 0;color:var(--muted);font-size:11px;overflow-wrap:anywhere}.pill{display:inline-block;padding:4px 8px;border-radius:30px;background:#332448;color:#d8c2ff;font-size:10px;margin:4px 4px 0 0}.record-meta{display:flex;gap:6px;flex-wrap:wrap}.empty{text-align:center;padding:35px;color:var(--muted);border:1px dashed var(--line);border-radius:12px}.modal{position:fixed;inset:0;background:#05040bdc;display:none;align-items:flex-start;justify-content:center;padding:18px;overflow:auto;z-index:5}.modal.open{display:flex}.dialog{width:min(720px,100%);background:#171322;border:1px solid #a77aff55;border-radius:16px;padding:20px;margin:auto}.dialog-head{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:14px}.dialog h2{font-size:20px;margin:0}.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}.field{display:grid;gap:5px}.field label{font-size:11px;color:#d3c8e4}.field.full{grid-column:1/-1}.field textarea{min-height:90px;resize:vertical}.dialog-actions{display:flex;justify-content:flex-end;gap:8px;margin-top:16px}.foot{color:#766d86;font-size:10px;text-align:center;margin-top:22px}.hidden{display:none!important}
+@media(max-width:700px){.stats{grid-template-columns:repeat(2,1fr)}.record{grid-template-columns:1fr;gap:8px}.record .actions{justify-content:flex-start}.form-grid{grid-template-columns:1fr}.field.full{grid-column:auto}.wrap{padding:18px 13px 40px}.top-actions{width:100%}.top-actions .btn{flex:1}}
+</style>
+</head>
+<body>
+<main class="wrap">
+<header class="top">
+<div><div class="brand"><span class="mark">R</span><span>RAPABI DIGITAL</span></div><p>Internal workspace · Client and project tracker</p></div>
+<div class="top-actions"><button class="btn" id="exportBtn">Export backup</button><button class="btn" id="importBtn">Import backup</button><button class="btn primary" id="newBtn">＋ Add enquiry</button><input id="importFile" class="hidden" type="file" accept="application/json"></div>
+</header>
+<div class="notice"><strong>Private-use reminder:</strong> records are saved only in this browser on this device. They are not sent to a server. Anyone who can use this browser profile may be able to view them. Avoid storing passwords, ID numbers, bank/card details, or sensitive personal information. Export a backup regularly.</div>
+<section class="stats" aria-label="Tracker summary">
+<div class="stat"><small>All records</small><b id="totalCount">0</b></div><div class="stat"><small>Open enquiries</small><b id="openCount">0</b></div><div class="stat"><small>Active projects</small><b id="activeCount">0</b></div><div class="stat"><small>Awaiting payment</small><b id="paymentCount">0</b></div>
+</section>
+<div class="toolbar"><div class="search"><input id="search" type="search" placeholder="Search business, contact or service…" aria-label="Search records"></div><div class="field"><select id="filter" aria-label="Filter records"><option value="all">All stages</option><option>New enquiry</option><option>Discovery</option><option>Quote sent</option><option>Approved</option><option>In progress</option><option>Review</option><option>Completed</option><option>Closed</option></select></div></div>
+<section id="records" class="records" aria-live="polite"></section>
+<p class="foot">Rapabi Digital · Local-only tracker · No customer outreach or publishing is performed by this tool.</p>
+</main>
+<div class="modal" id="modal" role="dialog" aria-modal="true" aria-labelledby="dialogTitle">
+<div class="dialog">
+<div class="dialog-head"><h2 id="dialogTitle">Add enquiry</h2><button class="btn" id="closeBtn" type="button">Close</button></div>
+<form id="recordForm">
+<input type="hidden" id="recordId">
+<div class="form-grid">
+<div class="field"><label for="business">Business / client name *</label><input id="business" required maxlength="100"></div>
+<div class="field"><label for="contact">Contact person</label><input id="contact" maxlength="100"></div>
+<div class="field"><label for="email">Email (optional)</label><input id="email" type="email" maxlength="150"></div>
+<div class="field"><label for="phone">WhatsApp / phone (optional)</label><input id="phone" type="tel" maxlength="40"></div>
+<div class="field"><label for="service">Service *</label><select id="service" required><option value="">Choose service</option><option>Website Design</option><option>Graphic Design</option><option>Social Media Management</option><option>Video Editing</option><option>Other / Not sure</option></select></div>
+<div class="field"><label for="stage">Project stage</label><select id="stage"><option>New enquiry</option><option>Discovery</option><option>Quote sent</option><option>Approved</option><option>In progress</option><option>Review</option><option>Completed</option><option>Closed</option></select></div>
+<div class="field"><label for="quote">Quoted amount (R)</label><input id="quote" type="number" min="0" step="0.01" placeholder="e.g. 1200"></div>
+<div class="field"><label for="payment">Payment status</label><select id="payment"><option>Not invoiced</option><option>Awaiting deposit</option><option>Deposit received</option><option>Balance due</option><option>Paid</option><option>Not applicable</option></select></div>
+<div class="field"><label for="approval">Client approval</label><select id="approval"><option>Pending</option><option>Approved</option><option>Changes requested</option></select></div>
+<div class="field"><label for="delivery">Delivery status</label><select id="delivery"><option>Not started</option><option>In production</option><option>Preview sent</option><option>Delivered</option></select></div>
+<div class="field"><label for="due">Target date</label><input id="due" type="date"></div>
+<div class="field"><label for="updated">Last updated</label><input id="updated" type="date"></div>
+<div class="field full"><label for="notes">Scope / next action / notes</label><textarea id="notes" maxlength="1500" placeholder="Record agreed deliverables, next action and approval context. Do not add passwords or sensitive data."></textarea></div>
+</div>
+<div class="dialog-actions"><button type="button" class="btn" id="cancelBtn">Cancel</button><button type="submit" class="btn primary">Save record</button></div>
+</form>
+</div>
+</div>
+<script>
+(function(){
+const KEY='rapabi_digital_client_tracker_v1';
+const $=id=>document.getElementById(id);
+const fields=['business','contact','email','phone','service','stage','quote','payment','approval','delivery','due','updated','notes'];
+let records=[];
+try{const saved=localStorage.getItem(KEY);records=saved?JSON.parse(saved):[];if(!Array.isArray(records))records=[];}catch(e){records=[];}
+const today=()=>new Date().toISOString().slice(0,10);
+const save=()=>{try{localStorage.setItem(KEY,JSON.stringify(records));}catch(e){alert('Could not save. Export a backup or free browser storage space.');}};
+const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+function render(){
+const q=$('search').value.trim().toLowerCase(),f=$('filter').value;
+const shown=records.filter(r=>(f==='all'||r.stage===f)&&[r.business,r.contact,r.email,r.phone,r.service,r.notes].join(' ').toLowerCase().includes(q));
+$('totalCount').textContent=records.length;
+$('openCount').textContent=records.filter(r=>!['Completed','Closed'].includes(r.stage)).length;
+$('activeCount').textContent=records.filter(r=>['Approved','In progress','Review'].includes(r.stage)).length;
+$('paymentCount').textContent=records.filter(r=>['Awaiting deposit','Deposit received','Balance due'].includes(r.payment)).length;
+$('records').innerHTML=shown.length?shown.map(r=>'<article class="record"><div><h3>'+esc(r.business)+'</h3><p>'+esc(r.contact||'No contact person')+' · '+esc(r.email||r.phone||'No contact details')+'</p><div class="record-meta"><span class="pill">'+esc(r.service)+'</span><span class="pill">'+esc(r.stage)+'</span></div></div><div><p>Quote: <strong>'+(r.quote!==''&&r.quote!=null?'R '+esc(Number(r.quote).toFixed(2)):'Not set')+'</strong></p><p>Payment: '+esc(r.payment)+'</p><p>Approval: '+esc(r.approval)+' · Delivery: '+esc(r.delivery)+'</p><p>Target: '+esc(r.due||'Not set')+'</p></div><div class="actions"><button class="btn edit" data-id="'+esc(r.id)+'">Edit</button><button class="btn danger delete" data-id="'+esc(r.id)+'">Delete</button></div></article>').join(''):'<div class="empty">No records yet. Add your first enquiry when one arrives.</div>';
+}
+function open(r){
+$('recordForm').reset();$('recordId').value=r?.id||'';
+fields.forEach(k=>$(k).value=r?.[k]??(k==='stage'?'New enquiry':k==='payment'?'Not invoiced':k==='approval'?'Pending':k==='delivery'?'Not started':k==='updated'?today():''));
+$('dialogTitle').textContent=r?'Edit record':'Add enquiry';$('modal').classList.add('open');$('business').focus();
+}
+function close(){$('modal').classList.remove('open');}
+$('newBtn').onclick=()=>open();$('closeBtn').onclick=close;$('cancelBtn').onclick=close;
+$('recordForm').addEventListener('submit',e=>{e.preventDefault();const id=$('recordId').value;const old=records.find(x=>x.id===id);const item={id:id||('rd-'+Date.now()+'-'+Math.random().toString(36).slice(2,7)),createdAt:old?.createdAt||new Date().toISOString()};fields.forEach(k=>item[k]=$(k).value.trim());if(!item.updated)item.updated=today();if(old)records=records.map(x=>x.id===id?item:x);else records.unshift(item);save();render();close();});
+$('records').addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;const r=records.find(x=>x.id===b.dataset.id);if(!r)return;if(b.classList.contains('edit'))open(r);if(b.classList.contains('delete')&&confirm('Delete the record for '+r.business+'? This cannot be undone unless you have a backup.')){records=records.filter(x=>x.id!==r.id);save();render();}});
+$('search').addEventListener('input',render);$('filter').addEventListener('change',render);
+$('exportBtn').onclick=()=>{const blob=new Blob([JSON.stringify({app:'Rapabi Digital Client Tracker',version:1,exportedAt:new Date().toISOString(),records},null,2)],{type:'application/json'});const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='rapabi-client-tracker-backup-'+today()+'.json';a.click();URL.revokeObjectURL(a.href);};
+$('importBtn').onclick=()=>$('importFile').click();
+$('importFile').addEventListener('change',async e=>{const file=e.target.files[0];if(!file)return;try{const data=JSON.parse(await file.text());const incoming=Array.isArray(data)?data:data.records;if(!Array.isArray(incoming)||!incoming.every(r=>r&&typeof r.business==='string'&&typeof r.id==='string'))throw new Error('Invalid backup format');if(!confirm('Import '+incoming.length+' records? Existing records with matching IDs will be replaced; other records will be kept.'))return;const map=new Map(records.map(r=>[r.id,r]));incoming.forEach(r=>map.set(r.id,r));records=Array.from(map.values());save();render();alert('Backup imported.');}catch(err){alert('Could not import this file. Please choose a valid Rapabi tracker JSON backup.');}finally{e.target.value='';}});
+render();
+})();
+</script>
+</body>
+</html>
